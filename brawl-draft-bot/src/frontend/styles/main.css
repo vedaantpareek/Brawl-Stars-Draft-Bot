@@ -1,0 +1,91 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.brawler-card {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px 0;
+    transition: box-shadow 0.3s;
+}
+
+.brawler-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.brawler-icon {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.brawler-name {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.ban-picker {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.ban-picker label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.search-bar {
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.draft-board {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.draft-board-header {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.pick-order-helper {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #e7f3fe;
+    border-left: 6px solid #2196F3;
+}
+
+.pick-order-helper h3 {
+    margin: 0;
+}
+
+.pick-order-helper p {
+    margin: 5px 0;
+}
