@@ -1,6 +1,5 @@
 import { Brawler } from '../models/brawler';
-import { fetchGoogleSheetsData } from './googleSheetsService';
-import { fetchCoreStatsData } from './corestatsService';
+import { CoreStatsService } from './corestatsService';
 
 interface DraftOptions {
     map: string;
@@ -16,15 +15,20 @@ export class DraftEngine {
     }
 
     async initialize() {
-        const sheetsData = await fetchGoogleSheetsData();
-        const coreStatsData = await fetchCoreStatsData();
-        this.brawlers = this.mergeData(sheetsData, coreStatsData);
+        try {
+            const coreStats = new CoreStatsService();
+            const coreStatsData = await coreStats.getAllBrawlersStats();
+            this.brawlers = this.mergeData(null, coreStatsData);
+        } catch (e) {
+            console.warn('DraftEngine: could not load external data, using empty list.', e);
+            this.brawlers = [];
+        }
     }
 
-    private mergeData(sheetsData: any, coreStatsData: any): Brawler[] {
-        // Logic to merge data from Google Sheets and corestats.pro
-        // This should return an array of Brawler instances
-        return []; // Placeholder for merged brawler data
+    private mergeData(_sheetsData: any, coreStatsData: any): Brawler[] {
+        if (!coreStatsData || !Array.isArray(coreStatsData)) return [];
+        // Map API response to Brawler[] as needed; placeholder for real mapping
+        return [];
     }
 
     public getBestBrawler(options: DraftOptions): Brawler | null {
@@ -37,4 +41,16 @@ export class DraftEngine {
         // This should return the best brawler for the given options
         return null; // Placeholder for the best brawler
     }
+}
+
+/** Async helper for the API: returns draft recommendations for the given map, bans, and pick order. */
+export async function getDraftRecommendations(
+    map: string,
+    bans: string[] = [],
+    pickOrder: string[] = []
+): Promise<{ bestBrawler: Brawler | null; recommendations?: Brawler[] }> {
+    const engine = new DraftEngine();
+    await engine.initialize();
+    const bestBrawler = engine.getBestBrawler({ map, bans, pickOrder });
+    return { bestBrawler, recommendations: bestBrawler ? [bestBrawler] : [] };
 }
